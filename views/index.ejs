@@ -1,0 +1,243 @@
+<%- include('partials/_header') -%>
+<%- include('partials/_navbar') -%>
+<%- include('partials/_masterhead') -%>
+<%- include('partials/_services') -%>
+    
+        <!-- Portfolio Grid-->
+        <section class="page-section bg-light" id="portfolio">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Portfolio</h2>
+                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                </div>
+                <div class="row">
+                    
+                    <% for(let i = 0; i< projects.length ; i++){ %>
+
+                        <!-- Portfolio item -->
+                        <div class="col-lg-4 col-sm-6 mb-4">
+                            <div class="portfolio-item">
+                                <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal<%= projects[i]._id %>">
+                                    <div class="portfolio-hover">
+                                        <div class="portfolio-hover-content"><i class="fas fa-magnifying-glass fa-3x"></i></div>
+                                    </div>
+                                    <img class="img-fluid" src="<%= projects[i].image %>" alt="..." />
+                                </a>
+                                <div class="portfolio-caption">
+                                    <div class="portfolio-caption-heading"><%= projects[i].title %></div>
+                                    <div class="portfolio-caption-subheading text-muted"><%= projects[i].category %></div>
+                                </div>
+                            </div>
+                            <div class="row mt-3 mb-1">
+                                <div class="col-6">
+                                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioEditModal<%= projects[i]._id %>">
+                                        <button class="btn btn-primary w-100">Edit</button>
+                                    </a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="/project/<%= projects[i]._id %>?_method=DELETE" onclick="return confirm('Are You Sure?')">
+                                        <button class="btn btn-danger w-100">Delete</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    <% } %>
+
+                    <div class="col-lg-4 col-sm-6 mb-4">
+                        <!-- Portfolio item Add-->
+                        <div class="portfolio-item">
+                            <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModalAdd">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                </div>
+                                <img class="img-fluid" src="assets/img/portfolio/add.jpg" alt="..." />
+                            </a>
+                            <div class="portfolio-caption">
+                                <div class="portfolio-caption-heading">Add</div>
+                                <div class="portfolio-caption-subheading text-muted">New Project</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+<%- include('partials/_about') -%>
+<%- include('partials/_team') -%>
+<%- include('partials/_clients') -%>
+<%- include('partials/_contacts') -%>
+<%- include('partials/_footer') -%>
+        
+        
+       
+        
+        <!-- Portfolio Modals-->
+        <!-- Portfolio item add modal popup-->
+        <div class="portfolio-modal modal fade" id="portfolioModalAdd" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h1>Add a New Project</h1>
+                                    <form class="my-5" action="/project" method="POST" encType="multipart/form-data">
+                                        <div class="form-group mb-4">
+                                            <!-- title input-->
+                                            <input type="text" class="form-control" id="title" name="title" placeholder="Project Title *" required/>
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <!-- short_desc input-->
+                                            <input class="form-control" id="short_desc" name="short_desc" type="text" placeholder="Project Short Description *"  required/>
+                                        </div>
+                                        <div class="form-group form-group-textarea mb-4">
+                                            <!-- desc input-->
+                                            <textarea class="form-control" id="desc" placeholder="Your Description *" name="desc" required></textarea>
+                                            
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <!-- client input-->
+                                            <input class="form-control" id="client" name="client" type="text" placeholder="Project Client *"  required/>
+                                            
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <!-- category input-->
+                                            <input class="form-control" id="category" name="category" type="text" placeholder="Project Category *"  required/>
+                                            
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <!-- category input-->
+                                            <input class="form-control" id="image" name="image" type="file" required/>
+                                            
+                                        </div>
+                                        <div class="text-center">
+                                            <button class="btn btn-success btn-xl text-uppercase" id="submitButton" type="submit">Add Project</button>
+                                        </div>
+                                    </form>
+                                    
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <% for(let i = 0; i< projects.length ; i++){ %>
+
+        <!-- Portfolio edit item modal popup-->
+        <div class="portfolio-modal modal fade" id="portfolioEditModal<%= projects[i]._id %>" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h1>Edit <%= projects[i].title %></h1>
+                                    <form class="my-5" action="/project/<%= projects[i]._id %>?_method=PUT" method="POST" encType="multipart/form-data">
+                                        <div class="form-group mb-4">
+                                            <!-- title input-->
+                                            <input type="text" class="form-control" id="title" name="title" placeholder="Project Title *" value="<%= projects[i].title %>" required/>
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <!-- short_desc input-->
+                                            <input class="form-control" id="short_desc" name="short_desc" type="text" placeholder="Project Short Description *" value="<%= projects[i].short_desc %>" required/>
+                                        </div>
+                                        <div class="form-group form-group-textarea mb-4">
+                                            <!-- desc input-->
+                                            <textarea class="form-control" id="desc" placeholder="Your Description *" name="desc" required><%= projects[i].desc %></textarea>
+                                            
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <!-- client input-->
+                                            <input class="form-control" id="client" name="client" type="text" placeholder="Project Client *" value="<%= projects[i].client %>" required/>
+                                            
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <!-- category input-->
+                                            <input class="form-control" id="category" name="category" type="text" placeholder="Project Category *" value="<%= projects[i].category %>" required/>
+                                            
+                                        </div>
+                                        <!-- image input-->
+                                        <!-- <div class="form-group mb-4">
+                                            <input class="form-control" id="image" name="image" type="file" required/>
+                                            
+                                        </div> -->
+                                        <div class="text-center">
+                                            <button class="btn btn-success btn-xl text-uppercase" id="submitButton" type="submit">Edit Project</button>
+                                        </div>
+                                    </form>
+                                    
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <% } %>
+        <% for(let i = 0; i< projects.length ; i++){ %>
+
+        <!-- Portfolio item modal popup-->
+        <div class="portfolio-modal modal fade" id="portfolioModal<%= projects[i]._id %>" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h2 class="text-uppercase"><%= projects[i].title %></h2>
+                                    <p class="item-intro text-muted"><%= projects[i].short_desc %></p>
+                                    <img class="img-fluid d-block mx-auto" src="<%= projects[i].image %>" alt="..." />
+                                    <p><%= projects[i].desc %></p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <strong>Client:</strong>
+                                            <%= projects[i].client %>
+                                        </li>
+                                        <li>
+                                            <strong>Category:</strong>
+                                            <%= projects[i].category %>
+                                        </li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        Close Project
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <% } %>
+        
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
+</html>
